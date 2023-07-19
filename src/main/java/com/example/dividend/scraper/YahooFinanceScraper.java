@@ -14,13 +14,14 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
 public class YahooFinanceScraper implements Scraper {
 
     private static final String STATISTICS_URL = "https://finance.yahoo.com/quote/%s/history?period1=%d&period2=%d&interval=1mo";
-    private static final String SUMMARY_URL = "https://finance.yahoo.com/quote/%s?p=%s";
+    private static final String SUMMARY_URL = "https://finance.yahoo.com/quote/%s?p=%s&.tsrc=fin-srch";
     private static final long START_TIME = 86_400; // 60 * 60 * 24
 
     @Override
@@ -70,11 +71,12 @@ public class YahooFinanceScraper implements Scraper {
         StringBuilder stringBuilder = new StringBuilder();
         try {
             Document document = Jsoup.connect(url).get();
+            /*
+            이 부분 영상과 달라서 체크
+             */
             Element titleEle = document.getElementsByTag("h1").get(0);
-            System.out.println(titleEle);
-            stringBuilder.append(titleEle.text().split(" ")[0])
-                    .append(" ")
-                    .append(titleEle.text().split(" ")[1]);
+            for (String str : titleEle.text().split(" "))
+                stringBuilder.append(str);
             return Company.builder()
                     .ticker(ticker)
                     .name(stringBuilder.toString())
