@@ -1,5 +1,6 @@
 package com.example.dividend.service;
 
+import com.example.dividend.exception.impl.AlreadyExistUserException;
 import com.example.dividend.model.Auth;
 import com.example.dividend.model.MemberEntity;
 import com.example.dividend.repository.MemberRepository;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -25,16 +27,19 @@ public class MemberService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("사용자 이름이 없습니다. -> " + username));
     }
 
+    @Transactional
     public MemberEntity register(Auth.SignUp member) {
         boolean exists = this.memberRepository.existsByUsername(member.getUsername());
         if (exists) {
-            throw new RuntimeException("이미 사용 중인 아이디 입니다.");
+            throw new AlreadyExistUserException();
         }
         member.setPassword(this.passwordEncoder.encode(member.getPassword()));
+        member.setUsername(member.getUsername());
+
         return this.memberRepository.save(member.toEntity());
     }
 
-    public MemberEntity authenticate(Auth.SignIn  member) {
+    public MemberEntity authenticate(Auth.SignIn member) {
         MemberEntity memberEntity = this.memberRepository.findByUsername(member.getUsername())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 ID 입니다."));
         if (!this.passwordEncoder.matches(member.getPassword(), memberEntity.getPassword())) {

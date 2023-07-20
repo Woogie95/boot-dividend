@@ -1,12 +1,11 @@
 package com.example.dividend.entity;
 
 import com.example.dividend.model.Dividend;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter

@@ -1,10 +1,11 @@
 package com.example.dividend.entity;
 
 import com.example.dividend.model.Company;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.persistence.*;
 
 @Getter
 @ToString

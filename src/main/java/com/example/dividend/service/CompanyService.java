@@ -2,6 +2,7 @@ package com.example.dividend.service;
 
 import com.example.dividend.entity.CompanyEntity;
 import com.example.dividend.entity.DividendEntity;
+import com.example.dividend.exception.impl.NoCompanyException;
 import com.example.dividend.model.Company;
 import com.example.dividend.model.ScrapedResult;
 import com.example.dividend.repository.CompanyRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,4 +80,13 @@ public class CompanyService {
     }
 
 
+    public String deleteCompany(String ticker) {
+        CompanyEntity company = this.companyRepository.findByTicker(ticker)
+                .orElseThrow(NoCompanyException::new);
+
+        this.dividendRepository.deleteAllByCompanyId(company.getId());
+        this.companyRepository.delete(company);
+        this.deleteAutocompleteKeyword(company.getName());
+        return company.getName();
+    }
 }
