@@ -1,6 +1,5 @@
 package com.example.dividend.controller;
 
-import com.example.dividend.model.ScrapedResult;
 import com.example.dividend.service.FinanceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,4 +19,5 @@ public class FinanceController {
     public ResponseEntity<?> searchFinance(@PathVariable String companyName) {
         return ResponseEntity.ok(this.financeService.getDividendByCompanyName(companyName));
     }
+
 }

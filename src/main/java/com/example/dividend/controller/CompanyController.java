@@ -59,5 +59,4 @@ public class CompanyController {
         this.redisCacheManager.getCache(CacheKey.KEY_FINANCE).evict(companyName);
     }
 
-
 }

@@ -15,4 +15,5 @@ public class AlreadyExistUserException extends AbstractException {
     public String getMessage() {
         return "이미 존재하는 사용자 입니다.";
     }
+
 }

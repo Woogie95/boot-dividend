@@ -4,7 +4,6 @@ import com.example.dividend.entity.CompanyEntity;
 import com.example.dividend.entity.DividendEntity;
 import com.example.dividend.model.Company;
 import com.example.dividend.model.ScrapedResult;
-import com.example.dividend.model.constants.CacheKey;
 import com.example.dividend.repository.CompanyRepository;
 import com.example.dividend.repository.DividendRepository;
 import com.example.dividend.scraper.Scraper;
