@@ -30,6 +30,7 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody Auth.SignIn request) {
         MemberEntity memberEntity = this.memberService.authenticate(request);
+        log.info("user login -> " + request.getUsername());
         return ResponseEntity.ok(
                 this.tokenProvider.generateToken(memberEntity.getUsername(), memberEntity.getRoles()));
     }
